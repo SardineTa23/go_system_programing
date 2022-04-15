@@ -15,6 +15,9 @@ func main() {
 		panic(err)
 	}
 	conn.Write([]byte("GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"))
+
+	// http.ReadResponse()はHTTP のレスポンスをパースする
+	// connはbufio.Reader でラップ
 	res, err := http.ReadResponse(bufio.NewReader(conn), nil)
 
 	fmt.Println(res.Header)
