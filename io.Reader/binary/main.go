@@ -15,7 +15,7 @@ func dumpChumk(chunk io.Reader) {
 	fmt.Printf("chunk '%v' (%d bytes)\n", string(buffer), length)
 }
 
-// PNG ファイルはバイナリフォーマットです。先頭の8バイトがシグニチャ(固定のバイト列)となっています。
+// PNG ファイルはバイナリフォーマット。先頭の8バイトがシグニチャ(固定のバイト列)となっている。
 // 1チャンク32バイト
 func readChunks(file *os.File) []io.Reader {
 	var chunks []io.Reader
@@ -32,7 +32,7 @@ func readChunks(file *os.File) []io.Reader {
 		}
 		chunks = append(chunks, io.NewSectionReader(file, offset, int64(length)+12))
 
-		// offsetの値を次のチャンクの先頭に移動
+		// offsetの値を次のチャンクの先頭に変更
 		offset, _ = file.Seek(int64(length+8), 1)
 	}
 
