@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+// データ型を指定して解析
+
 var source = "123 1.234 1.0e4 test"
 
 func main() {

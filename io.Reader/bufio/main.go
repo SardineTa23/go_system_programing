@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// 改行/単語で区切る
+
 var source = `1行め
 2行め
 3行め`
