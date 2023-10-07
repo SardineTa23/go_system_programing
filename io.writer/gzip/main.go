@@ -7,13 +7,14 @@ import (
 )
 
 func main() {
-	file, err := os.Create("test.txt.gz")
+	f, err := os.Create("test.txt.gz")
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
 
-	writer := gzip.NewWriter(file)
-	writer.Header.Name = "test.txt"
-	io.WriteString(writer, "hogehoge, gzip.Writer\n")
-	writer.Close()
+	w := gzip.NewWriter(f)
+	defer w.Close()
+	w.Header.Name = "test.txt"
+	io.WriteString(w, "hogehoge, gzip.Writer\n")
 }
