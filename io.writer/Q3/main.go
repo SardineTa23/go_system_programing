@@ -3,7 +3,6 @@ package main
 import (
 	"compress/gzip"
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -11,17 +10,18 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.URL)
 	w.Header().Set("Content-Encoding", "gzip")
 	w.Header().Set("Content-Type", "application/json")
 	source := map[string]string{
 		"Hello": "World",
 	}
 
-	file, _ := os.Create("hoge.json.gz")
-	gzip := gzip.NewWriter(file)
+	f, _ := os.Create("hoge.json.gz")
+	defer f.Close()
+	gf := gzip.NewWriter(f)
+	defer gf.Close()
 
-	multiWriter := io.MultiWriter(gzip, os.Stdout)
+	multiWriter := io.MultiWriter(gf, os.Stdout)
 
 	encoder := json.NewEncoder(multiWriter)
 	encoder.SetIndent("", "   ")
@@ -31,8 +31,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	gzip.Flush()
-	gzip.Close()
+	gf.Flush()
 }
 func main() {
 	http.HandleFunc("/", handler)
