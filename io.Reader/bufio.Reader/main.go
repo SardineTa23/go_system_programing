@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io"
-	"strings"
 )
 
 // 改行/単語で区切る
@@ -14,9 +14,11 @@ var source = `1行め
 3行め`
 
 func main() {
-	reader := bufio.NewReader(strings.NewReader(source))
+	b := bytes.NewReader([]byte(source))
+	br := bufio.NewReader(b)
 	for {
-		line, err := reader.ReadString('\n')
+		// 改行で区切る
+		line, err := br.ReadString('\n')
 		fmt.Printf("%#v\n", line)
 		if err == io.EOF {
 			break
